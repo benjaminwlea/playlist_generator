@@ -21,7 +21,7 @@ public class TrackInfo
         _logger = logger;
     }
 
-    [Function("Function1")]
+    [Function("GetTrackInfo")]
     public async Task<IActionResult> GetTrackInfo([HttpTrigger(AuthorizationLevel.Function, "get", Route = "track/info")] HttpRequest req)
     {
         string accessToken = await authHelper.GetAccessTokenAsync();

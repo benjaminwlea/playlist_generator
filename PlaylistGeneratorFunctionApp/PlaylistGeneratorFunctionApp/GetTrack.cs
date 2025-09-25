@@ -20,7 +20,7 @@ namespace PlaylistGeneratorFunctionApp
       Environment.GetEnvironmentVariable("Refresh_token")// obtained during initial OAuth login
   );
 
-        [Function("Function5")]
+        [Function("GetPlaylist")]
         public static async Task<IActionResult> GetPlaylist(string name,string artist, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "track/id")] HttpRequest req)
         {
             string query = "track:" + name + " artist:" + artist;

@@ -15,13 +15,13 @@ namespace PlaylistGeneratorFunctionApp
 
     public class PlaylistFunctions
     {
-        private readonly ILogger<Function1> _logger;
+        private readonly ILogger<TrackInfo> _logger;
         static readonly SpotifyAuthHelper authHelper = new(
             "dadcc3e1920f4fb78f62e6704e233a0f",
             "8d2958f6009b44a2ba45646d55c0c023",
             Environment.GetEnvironmentVariable("Refresh_token")// obtained during initial OAuth login
         );
-        [Function("Function3")]
+        [Function("GetUsersPlaylists")]
         public static async Task<IActionResult> GetUsersPlaylists(string id, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists")] HttpRequest req)
         {
             string accessToken = await authHelper.GetAccessTokenAsync();

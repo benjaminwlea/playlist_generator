@@ -53,4 +53,20 @@ public class Function1
         Console.WriteLine(json);
         return new OkObjectResult(json);
     }
+    [Function("Function3")]
+    public static async Task<IActionResult> GetUsersPlaylists(string id, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists")] HttpRequest req)
+    {
+        string accessToken = await authHelper.GetAccessTokenAsync();
+
+        using var client = new HttpClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", accessToken);
+
+        // Get the current user's playlists
+        var response = await client.GetAsync("https://api.spotify.com/v1/me/playlists");
+        string json = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine(json);
+        return new OkObjectResult(json);
+    }
 }

@@ -22,7 +22,7 @@ public class Function1
     }
 
     [Function("Function1")]
-    public async Task<IActionResult> GetTrackInfo([HttpTrigger(AuthorizationLevel.Function, "get", Route = "Obama")] HttpRequest req)
+    public async Task<IActionResult> GetTrackInfo([HttpTrigger(AuthorizationLevel.Function, "get", Route = "track/info")] HttpRequest req)
     {
         string accessToken = await authHelper.GetAccessTokenAsync();
 
@@ -39,7 +39,7 @@ public class Function1
     }
 
     [Function("Function2")]
-    public static async Task<IActionResult> GetPlaylist(string id,[HttpTrigger(AuthorizationLevel.Function, "get", Route = "Obamna")] HttpRequest req)
+    public static async Task<IActionResult> GetPlaylist(string id,[HttpTrigger(AuthorizationLevel.Function, "get", Route = "playlist/info")] HttpRequest req)
     {
         string accessToken = await authHelper.GetAccessTokenAsync();
 

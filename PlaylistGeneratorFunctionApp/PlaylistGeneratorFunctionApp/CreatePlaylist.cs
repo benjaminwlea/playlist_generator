@@ -1,0 +1,69 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace PlaylistGeneratorFunctionApp
+{
+    public class MyClass
+    {
+        static readonly SpotifyAuthHelper authHelper = new(
+    "dadcc3e1920f4fb78f62e6704e233a0f",
+    "8d2958f6009b44a2ba45646d55c0c023",
+    Environment.GetEnvironmentVariable("Refresh_token") // obtained during initial OAuth login
+);
+
+        [Function("Function4")]
+        public static async Task<IActionResult> CreatePlaylist(string listName, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/create")] HttpRequest req)
+        {
+            var accessToken = await authHelper.GetAccessTokenAsync();
+            var userId = "11181725669"; // e.g., from GET /v1/me
+
+            var playlistDescription = "Created via raw HTTP in C#";
+            var isPublic = true;
+
+            using var client = new HttpClient();
+
+            // Add the Authorization header
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Build the JSON payload
+            var json = JsonSerializer.Serialize(new
+            {
+                name = listName,
+                description = playlistDescription,
+                @public = isPublic
+            });
+
+            // Wrap JSON string in StringContent with correct media type
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // Call the API
+            var url = $"https://api.spotify.com/v1/users/{userId}/playlists";
+            var response = await client.PostAsync(url, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Playlist created successfully!");
+                Console.WriteLine(responseBody);
+                return new OkObjectResult(responseBody);
+            }
+            else
+            {
+                var errorBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Failed to create playlist. Status: {response.StatusCode}");
+                Console.WriteLine(errorBody);
+                return new BadRequestObjectResult(errorBody);
+            }
+
+        }
+    }
+}

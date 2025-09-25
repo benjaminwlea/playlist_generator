@@ -12,7 +12,7 @@ public class Function1
     static readonly SpotifyAuthHelper authHelper = new(
         "dadcc3e1920f4fb78f62e6704e233a0f",
         "8d2958f6009b44a2ba45646d55c0c023",
-        "AQAfWV4EtagD6U7kVzVPtlRn1mGFMvSRmEDdRxmrFgVmiEXI3eG-oC-KUQUJB1Vzphvsslp78v-KCQ8skdjO2PigmtQjQ5m9PsXISdmgB7wr0O9HipCySPnoiUDZdL1JMXA" // obtained during initial OAuth login
+        "" // obtained during initial OAuth login
     );
 
 

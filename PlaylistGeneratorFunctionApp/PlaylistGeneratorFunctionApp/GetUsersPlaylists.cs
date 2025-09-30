@@ -17,9 +17,9 @@ namespace PlaylistGeneratorFunctionApp
     {
         private readonly ILogger<TrackInfo> _logger;
         static readonly SpotifyAuthHelper authHelper = new(
-            "dadcc3e1920f4fb78f62e6704e233a0f",
-            "8d2958f6009b44a2ba45646d55c0c023",
-            Environment.GetEnvironmentVariable("Refresh_token")// obtained during initial OAuth login
+            Environment.GetEnvironmentVariable("Client-id"),
+            Environment.GetEnvironmentVariable("Client-secret"),
+            Environment.GetEnvironmentVariable("Refresh-token")// obtained during initial OAuth login
         );
         [Function("GetUsersPlaylists")]
         public static async Task<IActionResult> GetUsersPlaylists(string id, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists")] HttpRequest req)

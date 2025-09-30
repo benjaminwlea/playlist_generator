@@ -24,7 +24,7 @@ namespace PlaylistGeneratorFunctionApp
         public static async Task<IActionResult> CreatePlaylist(string listName, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/create")] HttpRequest req)
         {
             var accessToken = await authHelper.GetAccessTokenAsync();
-            var userId = "11181725669"; // e.g., from GET /v1/me
+            var userId = "11899600"; // e.g., from GET /v1/me
 
             var playlistDescription = "Created via raw HTTP in C#";
             var isPublic = true;

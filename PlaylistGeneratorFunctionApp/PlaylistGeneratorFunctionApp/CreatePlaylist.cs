@@ -27,7 +27,7 @@ namespace PlaylistGeneratorFunctionApp
             var userId = "11899600"; // e.g., from GET /v1/me
 
             var playlistDescription = "Created via raw HTTP in C#";
-            var isPublic = true;
+            var isPublic = false;
 
             using var client = new HttpClient();
 

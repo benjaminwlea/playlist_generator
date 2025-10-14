@@ -21,18 +21,28 @@ namespace PlaylistGeneratorFunctionApp
         );
 
         [Function("CreatePlaylist")]
-        public static async Task<IActionResult> CreatePlaylist(string listName, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/create")] HttpRequest req)
+        public static async Task<IActionResult> CreatePlaylist(string listName, string accessToken, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/create")] HttpRequest req)
         {
-            var accessToken = await authHelper.GetAccessTokenAsync();
-            var userId = "11899600"; // e.g., from GET /v1/me
+            //var accessToken = await authHelper.GetAccessTokenAsync();
+            //var userId = "11899600"; // e.g., from GET /v1/me
+            
 
-            var playlistDescription = "Created via raw HTTP in C#";
+
+            var playlistDescription = "Created by Playlist Generator";
             var isPublic = false;
 
             using var client = new HttpClient();
 
             // Add the Authorization header
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            // Get user ID
+            var url = $"https://api.spotify.com/v1/me";
+            var response = await client.GetAsync(url);
+            string jsonUser = await response.Content.ReadAsStringAsync();
+            var docUser = JsonDocument.Parse(jsonUser);
+
+            string userId = docUser.RootElement.GetProperty("id").ToString();
 
             // Build the JSON payload
             var json = JsonSerializer.Serialize(new
@@ -46,8 +56,8 @@ namespace PlaylistGeneratorFunctionApp
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             // Call the API
-            var url = $"https://api.spotify.com/v1/users/{userId}/playlists";
-            var response = await client.PostAsync(url, content);
+            url = $"https://api.spotify.com/v1/users/{userId}/playlists";
+            response = await client.PostAsync(url, content);
 
             if (response.IsSuccessStatusCode)
             {

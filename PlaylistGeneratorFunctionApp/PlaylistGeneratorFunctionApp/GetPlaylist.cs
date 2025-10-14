@@ -19,9 +19,9 @@ namespace PlaylistGeneratorFunctionApp
             Environment.GetEnvironmentVariable("Refresh-token") // obtained during initial OAuth login
         );
         [Function("GetPlaylist")]
-        public static async Task<IActionResult> GetPlaylist(string id, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "playlist/info")] HttpRequest req)
+        public static async Task<IActionResult> GetPlaylist(string id, string accessToken, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "playlist/info")] HttpRequest req)
         {
-            string accessToken = await authHelper.GetAccessTokenAsync();
+            //string accessToken = await authHelper.GetAccessTokenAsync();
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization =

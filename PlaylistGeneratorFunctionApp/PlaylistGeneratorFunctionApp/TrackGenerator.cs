@@ -22,13 +22,13 @@ namespace PlaylistGeneratorFunctionApp
         );
 
         [Function("GenerateNewTracks")]
-        public static async Task<IActionResult> GenerateNewTracks(string sourcePlaylistId, string generatedplaylistId, int numSongs, bool randomize, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/generateNewTracks")] HttpRequest req)
+        public static async Task<IActionResult> GenerateNewTracks(string sourcePlaylistId, string generatedplaylistId, int numSongs, bool randomize, string accessToken, [HttpTrigger(AuthorizationLevel.Function, "get", Route = "user/playlists/generateNewTracks")] HttpRequest req)
         {
             Console.WriteLine($"sourcePlaylistId: {sourcePlaylistId}");
             Console.WriteLine($"generatedPlaylistId: {generatedplaylistId}");
             Console.WriteLine($"numSongs: {numSongs}");
             Console.WriteLine($"randomize: {randomize}");
-            var accessToken = await authHelper.GetAccessTokenAsync();
+            //var accessToken = await authHelper.GetAccessTokenAsync();
             
             using var client = new HttpClient();
 

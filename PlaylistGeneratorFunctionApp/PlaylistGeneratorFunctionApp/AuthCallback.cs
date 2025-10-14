@@ -24,8 +24,8 @@ public static class AuthCallback
         }
 
         // Load config from environment variables
-        string clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
-        string redirectUri = Environment.GetEnvironmentVariable("SPOTIFY_REDIRECT_URI");
+        string clientId = Environment.GetEnvironmentVariable("Client-id");
+        string redirectUri = Environment.GetEnvironmentVariable("Redirect-Uri");
         Console.WriteLine($"SPOTIFY_REDIRECT_URI {redirectUri}");
 
         // Build request to Spotify
